@@ -5,6 +5,9 @@ EBAY_CERT_ID = os.getenv("EBAY_CERT_ID", "")
 EBAY_DEV_ID = os.getenv("EBAY_DEV_ID", "")
 EBAY_EPN_CAMPAIGN_ID = os.getenv("EBAY_EPN_CAMPAIGN_ID", "")
 EBAY_MARKETPLACE = os.getenv("EBAY_MARKETPLACE", "EBAY-AU")
+# "sandbox" or "production" — sandbox keys (App ID containing "-SBX-") only
+# work against api.sandbox.ebay.com, not api.ebay.com.
+EBAY_ENV = os.getenv("EBAY_ENV", "production")
 
 FB_PAGE_ID = os.getenv("FB_PAGE_ID", "")
 FB_PAGE_ACCESS_TOKEN = os.getenv("FB_PAGE_ACCESS_TOKEN", "")

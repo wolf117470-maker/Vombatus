@@ -3,12 +3,13 @@ import base64
 import logging
 import requests
 
-from bot.config import EBAY_APP_ID, EBAY_CERT_ID, EBAY_MARKETPLACE, EBAY_EPN_CAMPAIGN_ID
+from bot.config import EBAY_APP_ID, EBAY_CERT_ID, EBAY_MARKETPLACE, EBAY_EPN_CAMPAIGN_ID, EBAY_ENV
 
 log = logging.getLogger(__name__)
 
-OAUTH_URL = "https://api.ebay.com/identity/v1/oauth2/token"
-BROWSE_BASE = "https://api.ebay.com/buy/browse/v1"
+_API_HOST = "api.sandbox.ebay.com" if EBAY_ENV == "sandbox" else "api.ebay.com"
+OAUTH_URL = f"https://{_API_HOST}/identity/v1/oauth2/token"
+BROWSE_BASE = f"https://{_API_HOST}/buy/browse/v1"
 
 _token_cache = {"token": None, "expires_at": 0}
 
