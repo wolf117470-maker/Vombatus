@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  sparky-deals-bot:
+    build: .
+    container_name: sparky-deals-bot
+    env_file: .env
+    environment:
+      TZ: Australia/Brisbane
+    dns:
+      - 192.168.50.1
+      - 8.8.8.8
+    logging:
+      driver: json-file
+      options:
+        max-file: '3'
+        max-size: 10m
+    ports:
+      - 8084:8084
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8084/health', timeout=5)"]
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - ./data:/data
