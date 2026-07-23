@@ -49,20 +49,30 @@ first.
 
 ## Two blocking prerequisites
 
-### 1. eBay Developer App (App ID / Cert ID / Dev ID) — not created yet
+### 1. eBay Developer App — sandbox keys obtained, production still outstanding
+
+Sandbox App ID/Cert ID were issued and verified working 2026-07-24 (OAuth
+client-credentials token request returns 200). `bot/ebay_client.py` now reads
+`EBAY_ENV` (`sandbox` or `production`) to pick the right API host
+(`api.sandbox.ebay.com` vs `api.ebay.com`) — sandbox and production keysets
+are not interchangeable, using a sandbox App ID against the production host
+(or vice versa) fails auth. Sandbox is only useful for exercising the
+OAuth/API code path — it has no real AU marketplace listings, so the bot
+can't actually post real deals until production keys are in.
 
 1. Go to https://developer.ebay.com and sign in with the account that has the
    EPN campaign (`vombatussolutions`).
-2. Apply for a **Production** keyset (not just Sandbox) under "My Account →
-   Application Keys". This is a manual application — eBay reviews it before
-   issuing production keys, this is not instant like the EPN signup was.
+2. Apply for a **Production** keyset under "My Account → Application Keys".
+   This is a manual application — eBay reviews it before issuing production
+   keys, unlike the sandbox keys (instant) or the EPN signup (also instant).
 3. Once approved, create a keyset for the AU marketplace. You'll get three
    values: **App ID (Client ID)**, **Cert ID (Client Secret)**, **Dev ID**.
    Only App ID + Cert ID are actually used by the Browse API OAuth flow this
-   bot uses (`bot/ebay_client.py`); Dev ID is issued alongside them as part of
-   eBay's standard three-key set and is kept in `.env` for completeness /
-   possible future Trading API use, but isn't called anywhere yet.
-4. Put them in `.env` as `EBAY_APP_ID`, `EBAY_CERT_ID`, `EBAY_DEV_ID`.
+   bot uses; Dev ID is issued alongside them as part of eBay's standard
+   three-key set and is kept in `.env` for completeness / possible future
+   Trading API use, but isn't called anywhere yet.
+4. Put them in `.env` as `EBAY_APP_ID`, `EBAY_CERT_ID`, `EBAY_DEV_ID`, and set
+   `EBAY_ENV=production`.
 5. `EBAY_EPN_CAMPAIGN_ID=5339166286` is already confirmed active — no action
    needed there.
 
